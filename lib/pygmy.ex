@@ -14,4 +14,12 @@ defmodule Pygmy do
     IO.puts "Starting up Pygmy..."
     default_opts
   end
+
+  def call(conn, _opts) do
+    route(conn.method, conn.path_info, conn)
+  end
+
+  def route(_, _, conn) do
+    conn |> Plug.Conn.resp(404, "URL not found")
+  end
 end
