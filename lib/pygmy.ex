@@ -5,6 +5,7 @@ defmodule Pygmy do
     import Supervisor.Spec
     children =[
       Plug.Adapters.Cowboy.child_spec(:http, Pygmy, []),
+      supervisor(Pygmy.Repo, [])
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
