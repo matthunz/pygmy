@@ -1,18 +1,17 @@
 defmodule Pygmy do
-  @moduledoc """
-  Documentation for Pygmy.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    import Supervisor.Spec
+    children =[
+      Plug.Adapters.Cowboy.child_spec(:http, Pygmy, []),
+    ]
 
-  ## Examples
+    Supervisor.start_link(children, strategy: :one_for_one)
+  end
 
-      iex> Pygmy.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def init(default_opts) do
+    IO.puts "Starting up Pygmy..."
+    default_opts
   end
 end
