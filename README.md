@@ -1,21 +1,18 @@
 # Pygmy
+A simple URL shortener based on Elixir and Sqlite3
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `pygmy` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:pygmy, "~> 0.1.0"}
-  ]
-end
+### Installation
+```bash
+git clone https://github.com/matthunz/pygmy
+cd pygmy
+mix deps.get
+mix ecto.migrate
+mix run --no-halt
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/pygmy](https://hexdocs.pm/pygmy).
+### Usage
+By default the server runs on port 4000 (this can be changed in libs/pygmy.ex)
 
+```bash
+curl -w "\n" -X POST -d 'example.com' localhost:4000
+```
