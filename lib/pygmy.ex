@@ -34,16 +34,24 @@ defmodule Pygmy do
         conn |> Plug.Conn.resp(404, "URL not found")
       long_url ->
         conn
-        |> Plug.Conn.put_resp_header("location", long_url)
-        |> Plug.Conn.resp(301, "Redirecting...")
+          |> Plug.Conn.put_resp_header("location", long_url)
+          |> Plug.Conn.resp(301, "Redirecting...")
     end
   end
 
   def route("POST", _, conn) do
+    {:ok, body, _} = Plug.Conn.read_body(conn, length: 100)
+
+    long_url = unless String.starts_with?(body, "http") do
+        "http://" <> body
+      else
+        body
+    end
+
     short_url = Pygmy.UrlGen.new
     Repo.insert!(%Link{
       short_url: short_url,
-      long_url: "http://example.com"
+      long_url: long_url
     })
 
     full_url = fn ->
